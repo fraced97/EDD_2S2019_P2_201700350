@@ -1,6 +1,8 @@
+import os
 class NodoAVL:
-    def __init__(self, valor):
-     self.valor=valor
+    def __init__(self, carnet,nombre):
+     self.valor=carnet
+     self.valor2=nombre
      self.factorEquilibrio=0
      #self.hojaIzquierda:NodoAVL
      self.hojaIzquierda=None
@@ -17,8 +19,8 @@ class ArbolAVLOriginal:
             return self.buscarNodo(dato, raiz2.hojaDerecha)
         else:
             return self.buscarNodo(dato, raiz2.hojaIzquierda)
-    def insertar(self,numero:int):
-        nuevo = NodoAVL(numero)
+    def insertar(self,numero,nombre):
+        nuevo = NodoAVL(numero,nombre)
         if(self.raiz == None):
             self.raiz=nuevo
         else:
@@ -116,12 +118,94 @@ class ArbolAVLOriginal:
     def obtenerValorRaiz(self):
         return self.raiz
 
+    def graficarInorden(self):
+        try:
+            f = open("Inorden.dot", "w")
+            f.write("digraph G {\n")
+            f.write("rankdir = LR \n node [shape = square];\n")
+            self.inordenG(self.raiz,f)
+            f.write("}")
+
+            f.close()
+            archivo = open("Inorden.dot")
+            aux=archivo.read().rstrip("->}")
+            archivo.close()
+            original = open("Inorden.dot", "w")
+            original.write(aux+"}")
+            original.close()
+
+
+            os.system("dot -Tjpg Inorden.dot -o imagenInorden.jpg")
+            os.system("imagenInorden.jpg")
+        except:
+            print("NO HAY NADA")
+    def inordenG(self,raiz6:NodoAVL,f):
+        if (raiz6 != None):
+            self.inordenG(raiz6.hojaIzquierda, f)
+            f.write("\""+str(raiz6.valor)+", "+raiz6.valor2+", "+str(raiz6.factorEquilibrio)+"\"->")
+            self.inordenG(raiz6.hojaDerecha,f)
+
+    def graficarPostOrden(self):
+        try:
+            f = open("PostOrden.dot", "w")
+            f.write("digraph G {\n")
+            f.write("rankdir = LR \n node [shape = square];\n")
+            self.postordenG(self.raiz,f)
+            f.write("}")
+
+            f.close()
+            archivo = open("PostOrden.dot")
+            aux=archivo.read().rstrip("->}")
+            archivo.close()
+            original = open("PostOrden.dot", "w")
+            original.write(aux+"}")
+            original.close()
+
+
+            os.system("dot -Tjpg PostOrden.dot -o imagenPostOrden.jpg")
+            os.system("imagenPostOrden.jpg")
+        except:
+            print("NO HAY NADA")
+    def postordenG(self,raiz7:NodoAVL,f):
+        if (raiz7 != None):
+            self.postordenG(raiz7.hojaIzquierda, f)
+            self.postordenG(raiz7.hojaDerecha, f)
+            f.write("\"" + str(raiz7.valor) + ", " + raiz7.valor2 + ", " + str(raiz7.factorEquilibrio) + "\"->")
+    def graficarPreOrden(self):
+        try:
+            f = open("PreOrden.dot", "w")
+            f.write("digraph G {\n")
+            f.write("rankdir = LR \n node [shape = square];\n")
+            self.preOrdenG(self.raiz,f)
+            f.write("}")
+
+            f.close()
+            archivo = open("PreOrden.dot")
+            aux=archivo.read().rstrip("->}")
+            archivo.close()
+            original = open("PreOrden.dot", "w")
+            original.write(aux+"}")
+            original.close()
+
+
+            os.system("dot -Tjpg PreOrden.dot -o imagenPreOrden.jpg")
+            os.system("imagenPreOrden.jpg")
+        except:
+            print("NO HAY NADA")
+    def preOrdenG(self,raiz7:NodoAVL,f):
+        if (raiz7 != None):
+            f.write("\"" + str(raiz7.valor) + ", " + raiz7.valor2 + ", " + str(raiz7.factorEquilibrio) + "\"->")
+            self.preOrdenG(raiz7.hojaIzquierda, f)
+            self.preOrdenG(raiz7.hojaDerecha, f)
+
+
 p=ArbolAVLOriginal()
-p.insertar(10)
-p.insertar(5)
-p.insertar(13)
-p.insertar(1)
-p.insertar(6)
-p.insertar(17)
-p.insertar(16)
+p.insertar(10,"hola")
+p.insertar(5,"hola")
+p.insertar(13,"hola")
+p.insertar(1,"hola")
+p.insertar(6,"hola")
+p.insertar(17,"hola")
+p.insertar(16,"hola")
 p.preorden(p.obtenerValorRaiz())
+p.graficarPreOrden()

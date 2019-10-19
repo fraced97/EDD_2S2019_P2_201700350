@@ -46,5 +46,5 @@ def generarData(listaData:list):
     print(objetoJson)
     print(auxobj)
     print(str(objetoJson2).replace("\'", '"').replace("None", "null").replace(" ", ""))
-    print(str(2) + str(auxfechaHora) + str(clase) + str(objetoJson2).replace("\'", '"').replace("None", "null").replace(" ", "") + str(auxhashAnterior))
+    print(str(2) + str(fechaHora) + str(clase) + str(objetoJson2).replace("\'", '"').replace("None", "null").replace(" ", "") + str(hashAnterior))
     return textoJson
