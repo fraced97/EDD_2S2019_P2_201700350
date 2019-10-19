@@ -25,8 +25,8 @@ def generarData(listaData:list):
     data = listaData[1][1]
     fechaHora = datetime.datetime.now()
     #fechaHora.strftime('%m-%d-%y %H:%M:%S')
-    auxfechaHora="02-10-19-::14:30:25"
-    auxhashAnterior ="fd5f6d5fdfdf232Y232312QW12196255"
+    #auxfechaHora="02-10-19-::14:30:25"
+    #auxhashAnterior ="fd5f6d5fdfdf232Y232312QW12196255"
     indiceBloque = indiceJson.contarNodos()
     if indiceJson.listaEsNula():
 
