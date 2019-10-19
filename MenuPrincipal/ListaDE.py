@@ -52,11 +52,11 @@ class ListaDE():
         self.tamanio = self.tamanio - 1
         return (temporal2.valor, temporal2.valor2)
 
-    def imprimir(self):
-        temp = self.primero
-        while temp is not None:
-            temp = temp.siguiente
-            return (temp.valor,temp.valor2)
+    def listaEsNula(self):
+        if self.primero==None:
+            return True
+        else:
+            return False
 
     def darPrimero(self):
         temp = self.primero
@@ -69,5 +69,15 @@ class ListaDE():
             return temp
     def limpiarLista(self):
         self.primero = None
-    def eliminar(self):
-        self.primero = self.primero.siguiente;
+    def contarNodos(self):
+        temp = self.primero
+        index=0
+        while temp is not None:
+            temp = temp.siguiente
+            index=index+1
+        return index
+    def retornarUltimoNodo(self):
+        temp = self.primero
+        while temp.siguiente is not None:
+            temp = temp.siguiente
+        return temp

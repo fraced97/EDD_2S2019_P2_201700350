@@ -1,4 +1,6 @@
-from MenuPrincipal import ListaDE
+from MenuPrincipal import ListaDE, LeerArchivo
+import csv
+import json
 
 
 
@@ -59,7 +61,8 @@ class MenuPractica:
                 print("--------------------------------")
 
             if condicion==1:
-                print("entro en uno")
+                archivo = input("INGRESA EL NOMBRE DEL ARCHIVO CSV: ")
+                LeerArchivo.leerArchivoCSV(archivo)
             elif condicion==2:
                 print("entro en dos")
             elif condicion==0:
@@ -68,6 +71,7 @@ class MenuPractica:
                 print("--------------------------------")
                 print("Escriba un numero entre 1-6")
                 print("--------------------------------")
+
 
 
 MenuPractica().menuPrincipal()
