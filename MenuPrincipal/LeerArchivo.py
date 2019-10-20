@@ -6,25 +6,38 @@ import json
 from MenuPrincipal import ArbolAVL
 
 indiceJson = ListaDE.ListaDE()
-auxArbol = ArbolAVL.ArbolAVLOriginal()
+
 
 #x  listaSimple = ListaDE.ListaDE()
+def jsonCorrecto(cadenaJson):
+    cadenaJson2 = str(cadenaJson).replace("\'", '"').replace("None", "null")
+    listaAux = json.loads(str(cadenaJson2))
+    hashAnterior = listaAux["PREVIUSHASH"]
+    hashActual = listaAux["HASH"]
+    clase = listaAux["CLASS"]
+    indice = listaAux["INDEX"]
+    fechaHora = listaAux["TIMESTAMP"]
+    data = listaAux["DATA"]
+    hashJson = encriptarHash(str(indice) + str(fechaHora) + str(clase) + str(data).replace("\'", '"').replace("None", "null").replace(" ","") + str(hashAnterior))
+    if hashJson == hashActual:
+        return "true"
+    else:
+        return "false"
+
 def guardarJson(cadenaJson):
     cadenaJson2 = json.loads(str(cadenaJson))
     indiceJson.insertar_final(cadenaJson, cadenaJson2["HASH"])
-
+'''
 def leerArchivoCSV(rutaArchivo):
     with open(rutaArchivo, 'r') as abrir:
         leer= csv.reader(abrir)
         archivo = list(leer)
-    '''abrir2 = open(rutaArchivo)
-    leer2= abrir2.read(abrir2)
-    archivo2= list(leer2)'''
+    #abrir2 = open(rutaArchivo)
+    #leer2= abrir2.read(abrir2)
+    #archivo2= list(leer2)
     #print(archivo[0])
     #print(archivo[0][1])
-    return generarData(archivo)
-
-
+    return generarData(archivo)'''
 
 
 def encriptarHash(hashCodigo):
@@ -66,29 +79,50 @@ def generarData(rutaArchivo):
     #print(str(2) + str(fechaHora) + str(clase) + str(objetoJson2).replace("\'", '"').replace("None", "null").replace(" ", "") + str(hashAnterior))
     return textoJson
 
-def encontrarCarnets(id, cadenJson):
-    print("HOLAAAAAAA"+cadenJson)
+def encontrarCarnets(cadenJson):
+    #print("HOLAAAAAAA"+cadenJson)
     carnets = []
-    def encontrarNombre(valor):
-        try:
-            carnets.append(valor[id])
-        except KeyError:
-            pass
-        return valor
-    json.loads(cadenJson, object_hook=encontrarNombre)  # Return value ignored.
-    print(carnets)
+    json.loads(cadenJson, object_hook=encontrarNombre)
+    #print(carnets)
     return carnets
 
 def crearArbol(cadenaJson):
-    jsonTxt2 = str(cadenaJson).replace("\'", '"').replace("None", "null")
-    temp = encontrarCarnets('value', str(jsonTxt2))
+    jsonCadena = str(cadenaJson).replace("None", "null").replace("\'", '"')
+    temp = encontrarCarnets(str(jsonCadena))
+    print(temp)
+    auxArbol = ArbolAVL.ArbolAVLOriginal()
     for i in temp:
         aux = str(i).split("-")
-        print(aux[0])
-        print("------------------")
-        print(aux[1])
         auxArbol.insertar(aux[0], aux[1])
     auxArbol.graficarArbol()
+
+def graficarInorden(cadenaJson):
+    jsonCadena = str(cadenaJson).replace("None", "null").replace("\'", '"')
+    temp = encontrarCarnets('value', str(jsonCadena))
+    auxArbol = ArbolAVL.ArbolAVLOriginal()
+    for iteracion in temp:
+        aux = str(iteracion).split("-")
+        auxArbol.insertar(aux[0], aux[1])
+    auxArbol.graficarInorden()
+
+def graficarPostOrden(cadenaJson):
+    jsonCadena = str(cadenaJson).replace("\'", '"').replace("None", "null")
+    temp = encontrarCarnets('value', str(jsonCadena))
+    auxArbol = ArbolAVL.ArbolAVLOriginal()
+    for iteracion in temp:
+        aux = str(iteracion).split("-")
+        auxArbol.insertar(aux[0], aux[1])
+    auxArbol.graficarPostOrden()
+
+def graficarPreOrden(cadenaJson):
+    jsonCadena = str(cadenaJson).replace("\'", '"').replace("None", "null")
+    temp = encontrarCarnets('value', str(jsonCadena))
+    auxArbol = ArbolAVL.ArbolAVLOriginal()
+    for iteracion in temp:
+        aux = str(iteracion).split("-")
+        auxArbol.insertar(aux[0], aux[1])
+    auxArbol.graficarPreOrden()
+
 
 def obtenerLista():
     return indiceJson

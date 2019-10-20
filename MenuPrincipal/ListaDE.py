@@ -1,3 +1,4 @@
+import os
 class NodoListaDE():
     def __init__(self, valor, valor2):
         self.siguiente = None
@@ -89,3 +90,26 @@ class ListaDE():
             aux= aux.siguiente
         #self.nombre = aux.valor
         return aux.valor
+
+    def graficarSerpiente(self):
+        try:
+            f = open("Lista.dot", "w")
+            f.write("digraph G {\n")
+            f.write("rankdir = LR \n node [shape = square];\n")
+            temporal = self.primero
+            while temporal.siguiente is not None:
+
+                f.write("\"" + str(temporal.valor) + "," + str(temporal.valor2) + "\"->""\"" + str(
+                    temporal.siguiente.valor) + "," + str(temporal.siguiente.valor2) + "\";\n")
+                f.write("\"" + str(temporal.siguiente.valor) + "," + str(temporal.siguiente.valor2) + "\"->""\"" + str(
+                    temporal.valor) + "," + str(temporal.valor2) + "\";\n")
+
+                temporal = temporal.siguiente
+            f.write("}")
+
+            f.close()
+
+            os.system("dot -Tjpg Lista.dot -o imagenLista.jpg")
+            os.system("imagenLista.jpg")
+        except:
+            print("NO HAY NADA")

@@ -7,8 +7,9 @@ class MenuPractica:
 
 
     #def __init__(self):
-
+    indiceGlobalLista = 0
     #auxLeerArchivo = LeerArchivo
+
     def menuPrincipal(self):
 
         '''print("")
@@ -63,7 +64,7 @@ class MenuPractica:
                 archivo = input("INGRESA EL NOMBRE DEL ARCHIVO CSV: ")
                 auxArchivo = LeerArchivo.generarData(archivo)
                 #print(str(auxArchivo)+"QUE PEDOOOOOOO")
-                #LeerArchivo.crearArbol(auxArchivo)
+                LeerArchivo.crearArbol(auxArchivo)
             elif condicion==2:
                 listaUsuario = LeerArchivo.obtenerLista()
                 condicion2 = -1
@@ -94,6 +95,7 @@ class MenuPractica:
                                 print("<<<" + listaUsuario.obtenerValor(indiceLista) + ">>>")
 
                         elif condicion2 == 0:
+                            self.indiceGlobalLista = indiceLista
                             print("Entro en salir")
                         else:
                             print("--------------------------------")
@@ -124,15 +126,21 @@ class MenuPractica:
                     if condicion2 == 1:
                         print("entro en uno")
                     elif condicion2 == 2:
-                        print("entro en dos")
+                        auxLista= LeerArchivo.obtenerLista()
+                        tempLista=auxLista.obtenerValor(self.indiceGlobalLista)
+                        LeerArchivo.crearArbol(tempLista)
                     elif condicion2 == 3:
-                        print("entro en dos")
+                        auxLista = LeerArchivo.obtenerLista()
+                        tempLista = auxLista.obtenerValor(self.indiceGlobalLista)
+                        LeerArchivo.graficarPreOrden(tempLista)
                     elif condicion2 == 4:
-                        print("entro en dos")
+                        auxLista = LeerArchivo.obtenerLista()
+                        tempLista = auxLista.obtenerValor(self.indiceGlobalLista)
+                        LeerArchivo.graficarInorden(tempLista)
                     elif condicion2 == 5:
-                        print("entro en dos")
-                    elif condicion2 == 6:
-                        print("entro en dos")
+                        auxLista = LeerArchivo.obtenerLista()
+                        tempLista = auxLista.obtenerValor(self.indiceGlobalLista)
+                        LeerArchivo.graficarPostOrden(tempLista)
                     elif condicion2 == 0:
                         print("Entro en salir")
                     else:
@@ -147,20 +155,7 @@ class MenuPractica:
                 print("--------------------------------")
 
 
-def jsonCorrecto(cadenaJson):
-    cadenaJson2 = str(cadenaJson).replace("\'", '"').replace("None", "null")
-    listaAux = json.loads(str(cadenaJson2))
-    hashAnterior = listaAux["PREVIUSHASH"]
-    hashActual = listaAux["HASH"]
-    clase = listaAux["CLASS"]
-    indice = listaAux["INDEX"]
-    fechaHora = listaAux["TIMESTAMP"]
-    data = listaAux["DATA"]
-    hashJson = encriptarHash(str(indice) + str(fechaHora) + str(clase) + str(data).replace("\'", '"').replace("None", "null").replace(" ","") + str(hashAnterior))
-    if hashJson == hashActual:
-        return "true"
-    else:
-        return "false"
+
 def encriptarHash(hashCodigo):
     aux = \
         hashlib.sha256(hashCodigo.encode()).hexdigest()
