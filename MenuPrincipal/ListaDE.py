@@ -81,3 +81,11 @@ class ListaDE():
         while temp.siguiente is not None:
             temp = temp.siguiente
         return temp
+    def obtenerValor(self,index):
+        aux=self.primero
+        contador = 0
+        while index != contador:
+            contador = contador + 1
+            aux= aux.siguiente
+        #self.nombre = aux.valor
+        return aux.valor

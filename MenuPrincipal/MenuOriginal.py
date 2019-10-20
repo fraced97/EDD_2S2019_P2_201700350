@@ -1,16 +1,14 @@
-from MenuPrincipal import ListaDE, LeerArchivo
+from MenuPrincipal import LeerArchivo
 import csv
 import json
 import hashlib
-
-
 
 class MenuPractica:
 
 
     #def __init__(self):
 
-
+    #auxLeerArchivo = LeerArchivo
     def menuPrincipal(self):
 
         '''print("")
@@ -63,10 +61,47 @@ class MenuPractica:
 
             if condicion==1:
                 archivo = input("INGRESA EL NOMBRE DEL ARCHIVO CSV: ")
-                auxArchivo = LeerArchivo.leerArchivoCSV(archivo)
-                jsonCorrecto(auxArchivo)
+                auxArchivo = LeerArchivo.generarData(archivo)
+                #print(str(auxArchivo)+"QUE PEDOOOOOOO")
+                #LeerArchivo.crearArbol(auxArchivo)
             elif condicion==2:
-                print("entro en dos")
+                listaUsuario = LeerArchivo.obtenerLista()
+                condicion2 = -1
+                indiceLista = 0
+                while (condicion2 != 0):
+                    if (listaUsuario.primero != None):
+                        print("<<<" + listaUsuario.obtenerValor(indiceLista) + ">>>")
+
+                        print(""" 
+                                                                 [1] Mover hacia la derecha
+                                                                 [2] Mover hacia la izquierda
+                                                                 [0] Salir
+
+                                                                                """)
+                        try:
+                            condicion2 = int(input("Escribe alguna opcion del menu: "))
+                        except ValueError:
+                            print("--------------------------------")
+                            print("No has ingresado un numero Entero")
+                            print("--------------------------------")
+
+                        if condicion2 == 1:
+                            indiceLista = indiceLista + 1
+                            print("<<<" + listaUsuario.obtenerValor(indiceLista) + ">>>")
+                        elif condicion2 == 2:
+                            if (indiceLista > 0):
+                                indiceLista = indiceLista - 1
+                                print("<<<" + listaUsuario.obtenerValor(indiceLista) + ">>>")
+
+                        elif condicion2 == 0:
+                            print("Entro en salir")
+                        else:
+                            print("--------------------------------")
+                            print("Escriba un numero entre 1-3")
+                            print("--------------------------------")
+                    else:
+                        print("Aun no hay nada en la Lista")
+                        break
             elif condicion ==3:
                 condicion2 = -1
                 while (condicion2 != 0):
@@ -87,18 +122,17 @@ class MenuPractica:
                         print("--------------------------------")
 
                     if condicion2 == 1:
-                        archivo = input("INGRESA EL NOMBRE DEL ARCHIVO CSV: ")
-                        LeerArchivo.leerArchivoCSV(archivo)
+                        print("entro en uno")
                     elif condicion2 == 2:
                         print("entro en dos")
                     elif condicion2 == 3:
-
+                        print("entro en dos")
                     elif condicion2 == 4:
-
+                        print("entro en dos")
                     elif condicion2 == 5:
-
+                        print("entro en dos")
                     elif condicion2 == 6:
-
+                        print("entro en dos")
                     elif condicion2 == 0:
                         print("Entro en salir")
                     else:
@@ -116,7 +150,6 @@ class MenuPractica:
 def jsonCorrecto(cadenaJson):
     cadenaJson2 = str(cadenaJson).replace("\'", '"').replace("None", "null")
     listaAux = json.loads(str(cadenaJson2))
-
     hashAnterior = listaAux["PREVIUSHASH"]
     hashActual = listaAux["HASH"]
     clase = listaAux["CLASS"]
@@ -132,5 +165,60 @@ def encriptarHash(hashCodigo):
     aux = \
         hashlib.sha256(hashCodigo.encode()).hexdigest()
     return aux
+
+listaUsuario = LeerArchivo.obtenerLista()
+
+
+def pintarVentana(index):
+    curses.start_color()
+    # window.keypad(True)
+    curses.noecho()
+    curses.curs_set(0)
+    ventanaUsuario.border(0)
+    ventanaUsuario.nodelay(True)  # PONE LAS CADENAS QUE PUSE DENTRO DE LA VENTANA
+    curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_BLACK)
+    ventanaUsuario.addstr(0, 25, 'DATA')
+    ventanaUsuario.addstr(9, 22,"<---  " + str(listaUsuario.obtenerValor(index)) + "  --->", curses.color_pair(1))
+    ventanaUsuario.refresh()
+def MenuUsuario():
+    if listaUsuario.primero!=None:
+        indiceListaUsuario = 0
+        pintarVentana(indiceListaUsuario)
+        # key = ventanaUsuario.getch()
+        while True:
+
+            key = ventanaUsuario.getch()
+
+            if (key == 54):  # VERIFICAMOS SI EL FLECHA A LA DERECHA
+                indiceListaUsuario = indiceListaUsuario + 1
+                ventanaUsuario.clear()
+                ventanaUsuario.refresh()
+                # print(index)
+                pintarVentana(indiceListaUsuario)
+                # key = ventanaUsuario.getch()
+            elif (key == 52):  # VERIFICAMOS SI ES FLECHA A LA IZQUIERDA
+                indiceListaUsuario = indiceListaUsuario - 1
+                ventanaUsuario.clear()
+                ventanaUsuario.refresh()
+                # print(index)
+                pintarVentana(indiceListaUsuario)
+            # key = ventanaUsuario.getch()
+            elif (key == 27):  # SI ES LA TECLA DE SCAPE....
+                ventanaUsuario.clear()
+                ventanaUsuario.refresh()
+                ventanaUsuario.addstr(6, 25, 'Regresando al menu Incial....', curses.color_pair(1))
+                ventanaUsuario.refresh()
+                curses.napms(2000)
+                # nombre = listaUsuario.obtenerValor(indiceListaUsuario)
+                # indice = indiceListaUsuario
+                break
+        curses.endwin()
+    else:
+        ventanaUsuario.clear()
+        ventanaUsuario.refresh()
+        ventanaUsuario.addstr(9, 25, 'NO HAY NADA EN LA LISTA')
+        ventanaUsuario.refresh()
+        curses.napms(2000)
+
 
 MenuPractica().menuPrincipal()

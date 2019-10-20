@@ -6,19 +6,23 @@ import json
 from MenuPrincipal import ArbolAVL
 
 indiceJson = ListaDE.ListaDE()
+auxArbol = ArbolAVL.ArbolAVLOriginal()
+
 #x  listaSimple = ListaDE.ListaDE()
 def guardarJson(cadenaJson):
     cadenaJson2 = json.loads(str(cadenaJson))
-    if len(cadenaJson) > 1:
-        indiceJson.insertar_final(cadenaJson, cadenaJson2["HASH"])
+    indiceJson.insertar_final(cadenaJson, cadenaJson2["HASH"])
 
 def leerArchivoCSV(rutaArchivo):
     with open(rutaArchivo, 'r') as abrir:
         leer= csv.reader(abrir)
         archivo = list(leer)
+    '''abrir2 = open(rutaArchivo)
+    leer2= abrir2.read(abrir2)
+    archivo2= list(leer2)'''
     #print(archivo[0])
     #print(archivo[0][1])
-    generarData(archivo)
+    return generarData(archivo)
 
 
 
@@ -28,10 +32,14 @@ def encriptarHash(hashCodigo):
         hashlib.sha256(hashCodigo.encode()).hexdigest()
     return aux
 
-def generarData(listaData:list):
+def generarData(rutaArchivo):
 
-    clase=listaData[0][1]
-    data = listaData[1][1]
+    with open(rutaArchivo, 'r') as abrir:
+        leer= csv.reader(abrir)
+        archivo = list(leer)
+
+    clase=archivo[0][1]
+    data = archivo[1][1]
     fechaHora = datetime.datetime.now()
     #fechaHora.strftime('%m-%d-%y %H:%M:%S')
     #auxfechaHora="02-10-19-::14:30:25"
@@ -41,6 +49,7 @@ def generarData(listaData:list):
         hashAnterior = '0000'
     else:
         hashAnterior= "\""+indiceJson.retornarUltimoNodo().valor2+"\""
+
     print(data.replace(" ","").replace("\n",""))
     objetoJson = json.dumps(str(data).replace(" ","").replace("\n",""))
     auxobj=str(objetoJson).replace("\\","")
@@ -50,22 +59,36 @@ def generarData(listaData:list):
 
     textoJson = "{\n" + '"INDEX": ' + "\""+str(indiceBloque)+"\"" + ",\n" + '"TIMESTAMP": ' + "\""+ str(fechaHora.strftime('%m-%d-%y-::%H:%M:%S'))+"\""+ ",\n"+'"CLASS": '+"\""+ str(clase)+"\""+",\n"+'"DATA": '+ str(data)+ ",\n"+'"PREVIUSHASH": '+"\""+ str(hashAnterior)+"\""+",\n"
     textoJson = textoJson + '"HASH": '+ "\""+str(hashActual)+"\"" + "\n}"
-    print(textoJson)
-    print(objetoJson)
-    print(auxobj)
-    print(str(objetoJson2).replace("None", "null").replace(" ", "").replace("\'", '"'))
-    print(str(2) + str(fechaHora) + str(clase) + str(objetoJson2).replace("\'", '"').replace("None", "null").replace(" ", "") + str(hashAnterior))
+    #print(textoJson)
+    #print(objetoJson)
+    #print(auxobj)
+    #print(str(objetoJson2).replace("None", "null").replace(" ", "").replace("\'", '"'))
+    #print(str(2) + str(fechaHora) + str(clase) + str(objetoJson2).replace("\'", '"').replace("None", "null").replace(" ", "") + str(hashAnterior))
     return textoJson
 
-def encontrarCarnets(palabra, cadenJson):
+def encontrarCarnets(id, cadenJson):
+    print("HOLAAAAAAA"+cadenJson)
     carnets = []
     def encontrarNombre(valor):
         try:
-            carnets.append(valor[palabra])
+            carnets.append(valor[id])
         except KeyError:
             pass
         return valor
     json.loads(cadenJson, object_hook=encontrarNombre)  # Return value ignored.
+    print(carnets)
     return carnets
 
+def crearArbol(cadenaJson):
+    jsonTxt2 = str(cadenaJson).replace("\'", '"').replace("None", "null")
+    temp = encontrarCarnets('value', str(jsonTxt2))
+    for i in temp:
+        aux = str(i).split("-")
+        print(aux[0])
+        print("------------------")
+        print(aux[1])
+        auxArbol.insertar(aux[0], aux[1])
+    auxArbol.graficarArbol()
 
+def obtenerLista():
+    return indiceJson
