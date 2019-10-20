@@ -96,6 +96,7 @@ class ArbolAVLOriginal:
         return nuevaHoja
 
     def postorden(self, aux: NodoAVL):
+        print("PostOrden")
         if (aux != None):
             self.postorden(aux.hojaIzquierda)
             self.postorden(aux.hojaDerecha)
@@ -103,12 +104,14 @@ class ArbolAVLOriginal:
 
 
     def inorden(self,aux:NodoAVL):
+        print("Inorden")
         if(aux!=None):
             self.inorden(aux.hojaIzquierda)
             print(aux.valor)
             self.inorden(aux.hojaDerecha)
 
     def preorden(self, aux: NodoAVL):
+        print("preOrden")
         if (aux != None):
             print(aux.valor)
             self.preorden(aux.hojaIzquierda)
