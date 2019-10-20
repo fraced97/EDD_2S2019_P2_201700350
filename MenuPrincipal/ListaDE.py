@@ -1,4 +1,5 @@
 import os
+import json
 class NodoListaDE():
     def __init__(self, valor, valor2):
         self.siguiente = None
@@ -91,20 +92,50 @@ class ListaDE():
         #self.nombre = aux.valor
         return aux.valor
 
-    def graficarSerpiente(self):
+    def graficarLista(self):
         try:
             f = open("Lista.dot", "w")
             f.write("digraph G {\n")
             f.write("rankdir = LR \n node [shape = square];\n")
-            temporal = self.primero
-            while temporal.siguiente is not None:
+            #temporal = self.primero
+
+            temp = self.primero
+            index = 0
+            while temp.siguiente is not None:
+
+                cadenaJson2 = str(temp.valor)
+                listaAux = json.loads(str(cadenaJson2))
+                hashAnterior = listaAux["PREVIUSHASH"]
+                hashActual = listaAux["HASH"]
+                clase = listaAux["CLASS"]
+                fechaHora = listaAux["TIMESTAMP"]
+
+                cadenaJson3 = str(temp.siguiente.valor)
+                listaAux2 = json.loads(str(cadenaJson2))
+                hashAnterior2 = listaAux2["PREVIUSHASH"]
+                hashActual2 = listaAux2["HASH"]
+                clase2 = listaAux2["CLASS"]
+                fechaHora2 = listaAux2["TIMESTAMP"]
+                f.write("\"" + str(clase) + "," + str(fechaHora)+str(hashActual)+str(hashAnterior) + "\"->""\"" +
+                    str(clase2) + "," + str(fechaHora2) + str(hashActual2) + str(hashAnterior2) + "\""+"[dir=both];")
+
+                temp = temp.siguiente
+                index = index + 1
+
+
+
+
+
+
+            '''#while temporal.siguiente is not None:
 
                 f.write("\"" + str(temporal.valor) + "," + str(temporal.valor2) + "\"->""\"" + str(
                     temporal.siguiente.valor) + "," + str(temporal.siguiente.valor2) + "\";\n")
                 f.write("\"" + str(temporal.siguiente.valor) + "," + str(temporal.siguiente.valor2) + "\"->""\"" + str(
                     temporal.valor) + "," + str(temporal.valor2) + "\";\n")
 
-                temporal = temporal.siguiente
+                temporal = temporal.siguiente'''
+
             f.write("}")
 
             f.close()
@@ -113,3 +144,8 @@ class ListaDE():
             os.system("imagenLista.jpg")
         except:
             print("NO HAY NADA")
+
+
+
+
+

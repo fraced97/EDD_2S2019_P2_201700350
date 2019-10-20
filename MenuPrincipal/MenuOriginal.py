@@ -8,7 +8,7 @@ class MenuPractica:
 
     #def __init__(self):
     indiceGlobalLista = 0
-    #auxLeerArchivo = LeerArchivo
+    auxLeerArchivo = LeerArchivo.leerArchivo()
 
     def menuPrincipal(self):
 
@@ -62,11 +62,11 @@ class MenuPractica:
 
             if condicion==1:
                 archivo = input("INGRESA EL NOMBRE DEL ARCHIVO CSV: ")
-                auxArchivo = LeerArchivo.generarData(archivo)
+                auxArchivo = self.auxLeerArchivo.generarData(archivo)
                 #print(str(auxArchivo)+"QUE PEDOOOOOOO")
-                LeerArchivo.crearArbol(auxArchivo)
+                self.auxLeerArchivo.crearArbol(auxArchivo)
             elif condicion==2:
-                listaUsuario = LeerArchivo.obtenerLista()
+                listaUsuario = self.auxLeerArchivo.obtenerLista()
                 condicion2 = -1
                 indiceLista = 0
                 while (condicion2 != 0):
@@ -124,23 +124,23 @@ class MenuPractica:
                         print("--------------------------------")
 
                     if condicion2 == 1:
-                        print("entro en uno")
+                        self.auxLeerArchivo.graficarLista()
                     elif condicion2 == 2:
-                        auxLista= LeerArchivo.obtenerLista()
+                        auxLista= self.auxLeerArchivo.obtenerLista()
                         tempLista=auxLista.obtenerValor(self.indiceGlobalLista)
-                        LeerArchivo.crearArbol(tempLista)
+                        self.auxLeerArchivo.crearArbol(tempLista)
                     elif condicion2 == 3:
-                        auxLista = LeerArchivo.obtenerLista()
+                        auxLista = self.auxLeerArchivo.obtenerLista()
                         tempLista = auxLista.obtenerValor(self.indiceGlobalLista)
-                        LeerArchivo.graficarPreOrden(tempLista)
+                        self.auxLeerArchivo.graficarPreOrden(tempLista)
                     elif condicion2 == 4:
-                        auxLista = LeerArchivo.obtenerLista()
+                        auxLista = self.auxLeerArchivo.obtenerLista()
                         tempLista = auxLista.obtenerValor(self.indiceGlobalLista)
-                        LeerArchivo.graficarInorden(tempLista)
+                        self.auxLeerArchivo.graficarInorden(tempLista)
                     elif condicion2 == 5:
-                        auxLista = LeerArchivo.obtenerLista()
+                        auxLista = self.auxLeerArchivo.obtenerLista()
                         tempLista = auxLista.obtenerValor(self.indiceGlobalLista)
-                        LeerArchivo.graficarPostOrden(tempLista)
+                        self.auxLeerArchivo.graficarPostOrden(tempLista)
                     elif condicion2 == 0:
                         print("Entro en salir")
                     else:
@@ -161,7 +161,7 @@ def encriptarHash(hashCodigo):
         hashlib.sha256(hashCodigo.encode()).hexdigest()
     return aux
 
-listaUsuario = LeerArchivo.obtenerLista()
+#listaUsuario = LeerArchivo.obtenerLista()
 
 
 def pintarVentana(index):
