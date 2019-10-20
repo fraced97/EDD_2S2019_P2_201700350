@@ -3,6 +3,7 @@ import datetime
 from MenuPrincipal import ListaDE
 import hashlib
 import json
+from MenuPrincipal import ArbolAVL
 
 indiceJson = ListaDE.ListaDE()
 
@@ -10,8 +11,8 @@ def leerArchivoCSV(rutaArchivo):
     with open(rutaArchivo, 'r') as abrir:
         leer= csv.reader(abrir)
         archivo = list(leer)
-    print(archivo[0])
-    print(archivo[0][1])
+    #print(archivo[0])
+    #print(archivo[0][1])
     generarData(archivo)
 
 def encriptarHash(hashCodigo):
@@ -33,11 +34,11 @@ def generarData(listaData:list):
         hashAnterior = '0000'
     else:
         hashAnterior= "\""+indiceJson.retornarUltimoNodo().valor2+"\""
-    print(data)
+    print(data.replace(" ","").replace("\n",""))
     objetoJson = json.dumps(str(data).replace(" ","").replace("\n",""))
     auxobj=str(objetoJson).replace("\\","")
 
-    objetoJson2 = json.loads(str(data))
+    objetoJson2 = json.loads(str(data).replace(" ","").replace("\n",""))
     hashActual=  encriptarHash(str(indiceBloque) + str(fechaHora.strftime('%m-%d-%y-::%H:%M:%S')) + str(clase) + str(objetoJson2).replace("\'", '"').replace("None", "null").replace(" ", "") + str(hashAnterior))
 
     textoJson = "{\n" + '"INDEX": ' + "\""+str(indiceBloque)+"\"" + ",\n" + '"TIMESTAMP": ' + "\""+ str(fechaHora.strftime('%m-%d-%y-::%H:%M:%S'))+"\""+ ",\n"+'"CLASS": '+"\""+ str(clase)+"\""+",\n"+'"DATA": '+ str(data)+ ",\n"+'"PREVIUSHASH": '+"\""+ str(hashAnterior)+"\""+",\n"

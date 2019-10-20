@@ -197,9 +197,45 @@ class ArbolAVLOriginal:
             f.write("\"" + str(raiz7.valor) + ", " + raiz7.valor2 + ", " + str(raiz7.factorEquilibrio) + "\"->")
             self.preOrdenG(raiz7.hojaIzquierda, f)
             self.preOrdenG(raiz7.hojaDerecha, f)
+    def graficarArbol2(self,raiz7:NodoAVL,f):
+        if (raiz7 != None):
 
 
-p=ArbolAVLOriginal()
+            f.write( "\"" + str(raiz7.valor) + ", " + raiz7.valor2 + ", " + str(raiz7.factorEquilibrio) +"\";")
+            if (raiz7.hojaIzquierda != None):
+                f.write("\""+str(raiz7.valor) + ", " + raiz7.valor2 + ", " + str(raiz7.factorEquilibrio)+"\"->\""+str(raiz7.hojaIzquierda.valor) + ", " + raiz7.hojaIzquierda.valor2 + ", " + str(raiz7.hojaIzquierda.factorEquilibrio)+"\";")
+
+            if (raiz7.hojaDerecha):
+                f.write(
+                    "\"" + str(raiz7.valor) + ", " + raiz7.valor2 + ", " + str(raiz7.factorEquilibrio) + "\"->\"" + str(
+                        raiz7.hojaDerecha.valor) + ", " + raiz7.hojaDerecha.valor2 + ", " + str(
+                        raiz7.hojaDerecha.factorEquilibrio) + "\";")
+
+            self.graficarArbol2(raiz7.hojaIzquierda, f)
+            self.graficarArbol2(raiz7.hojaDerecha, f)
+
+
+
+
+    def graficarArbol(self):
+        try:
+            f = open("Arbol.dot", "w")
+            f.write("digraph G {\n")
+            #f.write("rankdir = LR \n node [shape = square];\n")
+            self.graficarArbol2(self.raiz,f)
+            f.write("}")
+
+            f.close()
+
+
+            os.system("dot -Tjpg Arbol.dot -o imagenArbol.jpg")
+            os.system("imagenArbol.jpg")
+        except:
+            print("NO HAY NADA")
+
+
+
+'''p=ArbolAVLOriginal()
 p.insertar(10,"hola")
 p.insertar(5,"hola")
 p.insertar(13,"hola")
@@ -208,4 +244,4 @@ p.insertar(6,"hola")
 p.insertar(17,"hola")
 p.insertar(16,"hola")
 p.preorden(p.obtenerValorRaiz())
-p.graficarPreOrden()
+p.graficarArbol()'''
