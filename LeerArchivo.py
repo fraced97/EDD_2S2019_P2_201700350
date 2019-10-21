@@ -95,7 +95,7 @@ class leerArchivo():
             try:
                 carnets.append(carnetNombre['value'])
             except KeyError:
-                pass
+                print("Error")
             return carnetNombre
         json.loads(cadenJson, object_hook=encontrarNombre)
         return carnets
@@ -120,6 +120,7 @@ class leerArchivo():
             aux = str(iteracion).split("-")
             auxArbol.insertar(aux[0], aux[1])
         auxArbol.graficarInorden()
+        auxArbol.inorden2()
 
     def graficarPostOrden(self,cadenaJson):
         auxArbol = ArbolAVL.ArbolAVLOriginal()
@@ -130,6 +131,7 @@ class leerArchivo():
             aux = str(iteracion).split("-")
             auxArbol.insertar(aux[0], aux[1])
         auxArbol.graficarPostOrden()
+        auxArbol.postorden2()
 
     def graficarPreOrden(self,cadenaJson):
         auxArbol = ArbolAVL.ArbolAVLOriginal()
@@ -140,5 +142,6 @@ class leerArchivo():
             aux = str(iteracion).split("-")
             auxArbol.insertar(aux[0], aux[1])
         auxArbol.graficarPreOrden()
+        auxArbol.preorden2()
     def obtenerLista(self):
         return self.indiceJson

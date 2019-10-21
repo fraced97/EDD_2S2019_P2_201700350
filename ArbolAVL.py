@@ -116,6 +116,12 @@ class ArbolAVLOriginal:
             print(aux.valor)
             self.preorden(aux.hojaIzquierda)
             self.preorden(aux.hojaDerecha)
+    def preorden2(self):
+        self.preorden(self.raiz)
+    def postorden2(self):
+        self.postorden(self.raiz)
+    def inorden2(self):
+        self.inorden(self.raiz)
 
 
     def obtenerValorRaiz(self):
